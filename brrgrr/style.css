@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Burger Builder</title>
+  <style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+
+  header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  main {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  section {
+    flex: 1;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 1rem;
+    max-width: 400px;
+    min-width: 300px;
+    transition: box-shadow 0.3s ease;
+  }
+
+  section:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  h1, h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 2s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .orders-container {
+      margin-top: 2rem;
+    }
+
+    .order-card {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .order-card p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+  }
+
+  select, input[type="checkbox"], input[type="radio"], textarea {
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    background-color: #f08080;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #dd6868;
+  }
+
+  #previewContainer {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 2rem;
+  }
+
+  #previewContainer p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+  .burger-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+  }
+
+  .ingredients-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ingredient {
+    flex: 0 0 50%;
+    margin-bottom: 1rem;
+  }
+
+  /* New CSS for burger images and layout */
+  .bun-images {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+
+  .bun-option {
+    text-align: center;
+  }
+
+  .bun-option img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+
+  .bun-option img:hover {
+    border-color: #f08080;
+  }
+  /* Media Query for small screens */
+  @media (max-width: 600px) {
+    section {
+      flex: 1 0 100%;
+    }
+  }
+</style>

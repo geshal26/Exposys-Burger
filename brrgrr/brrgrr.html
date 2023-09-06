@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Burger Builder</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: yellow;
+    }
+
+    header {
+      background-color: black;
+    }
+
+    .header-img
+    {
+      background-image: url(header.avif);
+      background-repeat: no-repeat;
+      color: yellow;
+      position: relative;
+      font-size: 35px;
+      font-family: "Times New Roman", serif;
+      height:190px;
+      text-align: center;
+      padding: 1rem 0; 
+    }
+
+    main {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    section {
+      flex: 1;
+      background-color: black;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border-radius: 10px;
+      border-width: 50px;
+      border-color: black;
+      margin: 1rem;
+      max-width: 400px;
+      min-width: 300px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      box-shadow: 0 4px 8px rgb(248, 242, 242);
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: white;
+    }
+
+    label,h3 {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    select, input[type="checkbox"], input[type="radio"], textarea {
+      margin-bottom: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #f08080;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #dd6868;
+    }
+
+    #previewContainer {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-top: 2rem;
+    }
+
+    #previewContainer p {
+      margin: 0;
+      padding: 0;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    .burger-image {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .ingredients-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .ingredient {
+      flex: 0 0 50%;
+      margin-bottom: 1rem;
+    }
+
+    .ingredient img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+    /* New CSS for burger images and layout */
+    .bun-images {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+    }
+
+    .bun-option {
+      text-align: center;
+    }
+
+    .bun-option img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+    .bun-option img:hover {
+      border-color: #f08080;
+    }
+    /* Media Query for small screens */
+    @media (max-width: 600px) {
+      section {
+        flex: 1 0 100%;
+      }
+    }
+  </style>
+</head>
+<!-- ... Previous HTML and CSS code ... -->
+
+<body>
+    <header>
+      <div class="header-img">
+         <h1>BRRRGRRR</h1>
+      </div>
+    </header>
+    <main>
+      <section>
+        <h2>Build Your Burger</h2><br/>
+        <form id="burgerForm">
+          <h3>Select a Bun:</h3>
+          <div class="bun-images">
+            <div class="bun-option">
+              <img src="regular bun.jpg" alt="Regular Bun">
+              <label for="regular">Regular</label>
+            </div>
+            <div class="bun-option">
+              <img src="sesame.webp" alt="Sesame Bun">
+              <label for="sesame">Sesame</label>
+            </div>
+            <div class="bun-option">
+              <img src="gluten free.jpg" alt="Gluten-Free Bun">
+              <label for="gluten-free">Gluten-Free</label>
+            </div>
+          </div>
+          <br/>
+  
+          <h3>Choose Ingredients:</h3>
+          <div class="ingredients-container">
+            <div class="ingredient">
+              <img src="lettuce.jpg" alt="lettuce">
+              <span>
+                 <input type="checkbox" name="lettuce" id="lettuce">
+                 <label for="lettuce">Lettuce</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="tomato.jpg" alt="tomato">
+              <span>
+                <input type="checkbox" name="tomato" id="tomato">
+                <label for="tomato">Tomato</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="cheese.jpg" alt="cheese">
+              <span>
+                <input type="checkbox" name="cheese" id="cheese">
+                <label for="cheese">Cheese</label>
+              </span>
+            </div>
+            <!-- Add more ingredients here -->
+            <div class="ingredient">
+              <img src="bacon.jpg" alt="bacon">
+              <span>
+                <input type="checkbox" name="bacon" id="bacon">
+                <label for="bacon">Bacon</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="onions.jpg" alt="onions">
+              <span>
+                <input type="checkbox" name="onions" id="onions">
+                <label for="onions">Onions</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="pickles.jpg" alt="pickles">
+              <span>
+                <input type="checkbox" name="pickles" id="pickles">
+                <label for="pickles">Pickles</label>
+              </span>
+            </div>
+          </div>
+          <br/>
+  
+          <h3>Select Sauces:</h3>
+          <div class="ingredients-container">
+            <div class="ingredient">
+              <img src="mayo.jpg" alt="mayo">
+              <span> 
+                <input type="radio" name="sauce" value="mayo" id="mayo">
+                <label for="mayo">Mayonnaise</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="ketchup.jpg" alt="ketchup">
+              <span>
+                <input type="radio" name="sauce" value="ketchup" id="ketchup">
+                <label for="ketchup">Ketchup</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="mustard.jpg" alt="mustard">
+              <span>
+                <input type="radio" name="sauce" value="mustard" id="mustard">
+                <label for="mustard">Mustard</label>
+              </span>
+            </div>
+            <!-- Add more sauces here -->
+            <div class="ingredient">
+              <img src="bbq.jpg" alt="bbq">
+              <span>
+                <input type="radio" name="sauce" value="bbq" id="bbq">
+                <label for="bbq">BBQ Sauce</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="ranch.webp" alt="ranch">
+              <span>
+                <input type="radio" name="sauce" value="ranch" id="ranch">
+                <label for="ranch">Ranch Sauce</label>
+              </span>
+            </div>
+            <div class="ingredient">
+              <img src="chipotle.jpg" alt="chipotle">
+              <span>
+                <input type="radio" name="sauce" value="chipotle" id="chipotle">
+                <label for="chipotle">Chipotle Sauce</label>
+              </span>
+            </div>
+          </div>
+          <br/>
+  
+          <label for="additionalComments">Additional Specifications:</label>
+          <textarea name="additionalComments" id="additionalComments" rows="4"></textarea>
+  
+          <button type="submit">Order Burger</button>
+        </form>
+      </section>
+  
+      <section>
+        <h2>Your Custom Burger Preview</h2>
+        <div id="previewContainer">
+          <img class="burger-image" src="final burger.jpg" alt="Custom Burger">
+          <p>No burger customizations yet.</p>
+          <!-- Add the price display -->
+          <p class="burger-price">Total Price: $0.00</p>
+        </div>
+      </section>
+    </main>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const burgerForm = document.getElementById("burgerForm");
+        const previewContainer = document.getElementById("previewContainer");
+        const bunImages = document.querySelectorAll(".bun-option img");
+        const ingredientCheckboxes = document.querySelectorAll("input[type='checkbox']");
+        const sauceRadios = document.querySelectorAll("input[type='radio'][name='sauce']");
+        const pricePerIngredient = 1.5; // Price per ingredient in dollars
+  
+        // Function to update the custom burger preview and price
+        function updateBurgerPreview() {
+          const formData = new FormData(burgerForm);
+          const customBurger = {
+            bun: '',
+            lettuce: false,
+            tomato: false,
+            cheese: false,
+            // Add more ingredient properties here
+            bacon: false,
+            onions: false,
+            pickles: false,
+            sauce: '',
+            additionalComments: formData.get("additionalComments"),
+          };
+  
+          // Get selected bun
+          bunImages.forEach((bunImage) => {
+            if (bunImage.classList.contains("selected-bun")) {
+              customBurger.bun = bunImage.nextElementSibling.textContent;
+            }
+          });
+  
+          // Get selected ingredients
+          ingredientCheckboxes.forEach((checkbox) => {
+            customBurger[checkbox.name] = checkbox.checked;
+          });
+  
+          // Get selected sauce
+          sauceRadios.forEach((radio) => {
+            if (radio.checked) {
+              customBurger.sauce = radio.nextElementSibling.textContent;
+            }
+          });
+  
+          // Calculate the total price
+          let totalPrice = 0;
+          for (const ingredient in customBurger) {
+            if (customBurger[ingredient]) {
+              totalPrice += pricePerIngredient;
+            }
+          }
+  
+          // Display the custom burger preview and price
+          previewContainer.innerHTML = `
+            <img class="burger-image" src="final burger.jpg" alt="Custom Burger">
+            <p><strong>Bun:</strong> ${customBurger.bun}</p>
+            <p><strong>Lettuce:</strong> ${customBurger.lettuce ? "Yes" : "No"}</p>
+            <p><strong>Tomato:</strong> ${customBurger.tomato ? "Yes" : "No"}</p>
+            <p><strong>Cheese:</strong> ${customBurger.cheese ? "Yes" : "No"}</p>
+            <!-- Add more ingredient previews here -->
+            <p><strong>Bacon:</strong> ${customBurger.bacon ? "Yes" : "No"}</p>
+            <p><strong>Onions:</strong> ${customBurger.onions ? "Yes" : "No"}</p>
+            <p><strong>Pickles:</strong> ${customBurger.pickles ? "Yes" : "No"}</p>
+            <p><strong>Sauce:</strong> ${customBurger.sauce}</p>
+            <p><strong>Additional Specifications:</strong> ${customBurger.additionalComments}</p>
+            <!-- Display the total price -->
+            <p class="burger-price">Total Price: $${totalPrice.toFixed(2)}</p>
+          `;
+        }
+  
+        // Add event listeners to bun images
+        bunImages.forEach((bunImage) => {
+          bunImage.addEventListener("click", () => {
+            bunImages.forEach((image) => {
+              image.classList.remove("selected-bun");
+            });
+            bunImage.classList.add("selected-bun");
+            updateBurgerPreview();
+          });
+        });
+  
+        // Add event listener for form submission
+        burgerForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          updateBurgerPreview();
+        });
+  
+        // Initial update of the burger preview
+        updateBurgerPreview();
+      });
+    </script>
+  </body>
+  </html>

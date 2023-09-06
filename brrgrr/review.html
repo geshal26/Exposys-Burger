@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Burger Order</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Custom Burger Order</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Your Custom Burger Preview</h2>
+      <div id="previewContainer">
+        <img class="burger-image" src="custom-burger.jpg" alt="Custom Burger">
+        <p>No burger customizations yet.</p>
+        <!-- Add the price display -->
+        <p class="burger-price">Total Price: $0.00</p>
+      </div>
+    </section>
+
+    <section class="orders-container">
+      <h2>Previous Orders</h2>
+      <div id="ordersList">
+        <!-- Orders will be dynamically populated here -->
+      </div>
+    </section>
+  </main>
+
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const burgerForm = document.getElementById("burgerForm");
+        const previewContainer = document.getElementById("previewContainer");
+        const bunImages = document.querySelectorAll(".bun-option img");
+        const ingredientCheckboxes = document.querySelectorAll("input[type='checkbox']");
+        const sauceRadios = document.querySelectorAll("input[type='radio'][name='sauce']");
+        const pricePerIngredient = 1.5; // Price per ingredient in dollars
+  
+        // Function to update the custom burger preview and price
+        function updateBurgerPreview() {
+          const formData = new FormData(burgerForm);
+          const customBurger = {
+            bun: '',
+            lettuce: false,
+            tomato: false,
+            cheese: false,
+            // Add more ingredient properties here
+            bacon: false,
+            onions: false,
+            pickles: false,
+            sauce: '',
+            additionalComments: formData.get("additionalComments"),
+            price: 0, // Add a 'price' property to hold the total price
+            imageSrc: "custom-burger.jpg", // Default burger image
+          };
+  
+          // Get selected bun
+          bunImages.forEach((bunImage) => {
+            if (bunImage.classList.contains("selected-bun")) {
+              customBurger.bun = bunImage.nextElementSibling.textContent;
+              customBurger.imageSrc = bunImage.src; // Update the burger image source based on selected bun
+            }
+          });
+  
+          // Get selected ingredients and calculate the total price
+          let totalPrice = 0;
+          ingredientCheckboxes.forEach((checkbox) => {
+            customBurger[checkbox.name] = checkbox.checked;
+            if (checkbox.checked) {
+              totalPrice += pricePerIngredient;
+            }
+          });
+  
+          // Get selected sauce
+          sauceRadios.forEach((radio) => {
+            if (radio.checked) {
+              customBurger.sauce = radio.nextElementSibling.textContent;
+            }
+          });
+  
+          customBurger.price = totalPrice; // Assign the calculated total price to the 'price' property
+  
+          // Display the custom burger preview and price
+          previewContainer.innerHTML = `
+            <img class="burger-image" src="${customBurger.imageSrc}" alt="Custom Burger">
+            <p><strong>Bun:</strong> ${customBurger.bun}</p>
+            <p><strong>Lettuce:</strong> ${customBurger.lettuce ? "Yes" : "No"}</p>
+            <p><strong>Tomato:</strong> ${customBurger.tomato ? "Yes" : "No"}</p>
+            <p><strong>Cheese:</strong> ${customBurger.cheese ? "Yes" : "No"}</p>
+            <!-- Add more ingredient previews here -->
+            <p><strong>Bacon:</strong> ${customBurger.bacon ? "Yes" : "No"}</p>
+            <p><strong>Onions:</strong> ${customBurger.onions ? "Yes" : "No"}</p>
+            <p><strong>Pickles:</strong> ${customBurger.pickles ? "Yes" : "No"}</p>
+            <p><strong>Sauce:</strong> ${customBurger.sauce}</p>
+            <p><strong>Additional Comments:</strong> ${customBurger.additionalComments}</p>
+            <!-- Display the total price -->
+            <p class="burger-price">Total Price: $${customBurger.price.toFixed(2)}</p>
+          `;
+        }
+  
+        // ... Other functions (fetchOrders and deleteOrder) ...
+        function fetchOrders() {
+          const ordersList = document.getElementById("ordersList");
+          ordersList.innerHTML = '<div class="loader"></div>'; // Display loader while fetching data
+      
+          fetch('/getOrders')
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.orders && data.orders.length > 0) {
+                ordersList.innerHTML = ""; // Clear loader
+      
+                data.orders.forEach((order) => {
+                  const orderCard = document.createElement("div");
+                  orderCard.classList.add("order-card");
+                  orderCard.innerHTML = `
+                    <p><strong>Bun:</strong> ${order.bun}</p>
+                    <p><strong>Lettuce:</strong> ${order.lettuce ? "Yes" : "No"}</p>
+                    <p><strong>Tomato:</strong> ${order.tomato ? "Yes" : "No"}</p>
+                    <!-- Add more ingredient previews here -->
+                    <p><strong>Bacon:</strong> ${order.bacon ? "Yes" : "No"}</p>
+                    <p><strong>Onions:</strong> ${order.onions ? "Yes" : "No"}</p>
+                    <p><strong>Pickles:</strong> ${order.pickles ? "Yes" : "No"}</p>
+                    <p><strong>Sauce:</strong> ${order.sauce}</p>
+                    <p><strong>Additional Comments:</strong> ${order.additionalComments}</p>
+                    <button class="delete-btn" onclick="deleteOrder('${order._id}')">Delete</button>
+                  `;
+                  ordersList.appendChild(orderCard);
+                });
+              } else {
+                ordersList.innerHTML = "<p>No previous orders found.</p>"; // Display message if no orders found
+              }
+            })
+            .catch((error) => {
+              ordersList.innerHTML = "<p>Error fetching orders.</p>"; // Display error message if something goes wrong
+            });
+        }
+        fetchOrders();      
+        // Function to handle the form submission and move to the next page
+        function handleFormSubmission(event) {
+          event.preventDefault(); // Prevent default form submission behavior
+  
+          updateBurgerPreview();
+  
+          // Hide the burger builder section
+          const burgerBuilderSection = document.getElementById("burgerBuilderSection");
+          burgerBuilderSection.style.display = "none";
+  
+          // Show the order review section
+          const orderReviewSection = document.getElementById("orderReviewSection");
+          orderReviewSection.style.display = "block";
+  
+          // Populate the order review content
+          const orderReviewContainer = document.getElementById("orderReviewContainer");
+          orderReviewContainer.innerHTML = `
+            <h3>Your Custom Burger Order</h3>
+            <p><strong>Bun:</strong> ${customBurger.bun}</p>
+            <p><strong>Lettuce:</strong> ${customBurger.lettuce ? "Yes" : "No"}</p>
+            <p><strong>Tomato:</strong> ${customBurger.tomato ? "Yes" : "No"}</p>
+            <!-- Add more ingredient previews here -->
+            <p><strong>Bacon:</strong> ${customBurger.bacon ? "Yes" : "No"}</p>
+            <p><strong>Onions:</strong> ${customBurger.onions ? "Yes" : "No"}</p>
+            <p><strong>Pickles:</strong> ${customBurger.pickles ? "Yes" : "No"}</p>
+            <p><strong>Sauce:</strong> ${customBurger.sauce}</p>
+            <p><strong>Additional Comments:</strong> ${customBurger.additionalComments}</p>
+            <p><strong>Total Price:</strong> $${customBurger.price.toFixed(2)}</p>
+            <!-- Add a "Confirm Order" button or additional elements as needed -->
+          `;
+        }
+  
+        // Add event listener for form submission
+        burgerForm.addEventListener("submit", handleFormSubmission);
+  
+        // Attach event listeners
+        bunImages.forEach((bunImage) => {
+          bunImage.addEventListener("click", () => {
+            bunImages.forEach((img) => img.classList.remove("selected-bun"));
+            bunImage.classList.add("selected-bun");
+            updateBurgerPreview();
+          });
+        });
+  
+        ingredientCheckboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", updateBurgerPreview);
+        });
+  
+        sauceRadios.forEach((radio) => {
+          radio.addEventListener("change", updateBurgerPreview);
+        });
+  
+        // Initial update of the burger preview
+        updateBurgerPreview();
+      });
+    </script>
+</body>
+
+</html>
